@@ -1,5 +1,6 @@
 require 'rubygems'
-require 'rmagick'
+require 'RMgick'
+#require 'rmagick'
 require 'rails/generators'
 
 module Watarase
