@@ -24,5 +24,4 @@ module Watarase
 end
 require 'watarase/model'
 require 'watarase/controller'
-#require 'watarase/generator/uploader/uploader_generator'
 require 'watarase/generators/uploader/uploader_generator'
