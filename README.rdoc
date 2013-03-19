@@ -74,6 +74,12 @@ Add 'load_image' action in 'config/routes.rb'
 
 == Controller
 
+Define 'image_loadable <image_handler>' definition in controllers.
+
+    class UsersController < ApplicationController
+      image_loadable :user
+           :
+
 Set image holder to image handler by method 'set_iamge_holder'.
 
       def create
