@@ -38,7 +38,7 @@ module Watarase
       url_for(controller: image_handler.name.downcase!.pluralize, action: 'load_image', id: model.send(:"#{image_holder.name.underscore}").id, image_column: :image_thumb)
     end
 
-    # Call beffore create, update
+    # Call before create, update
     def set_image_holder(_image_handler)
       _image_handler.send(:"#{image_holder.name.underscore}=", image_holder.new) unless _image_handler.send(:"#{image_holder.name.underscore}")
       _image_handler.send(:"#{image_holder.name.underscore}").uploaded_image = image_params
