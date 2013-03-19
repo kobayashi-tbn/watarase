@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'RMgick'
+require 'RMagick'
 #require 'rmagick'
 require 'rails/generators'
 
