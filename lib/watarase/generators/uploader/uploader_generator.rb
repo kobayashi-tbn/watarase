@@ -1,9 +1,7 @@
 module Watarase
   module Generators
     class UploaderGenerator < Base
-      #def create_model_file
       def create_image_holder
-
         image_handler = file_name.camelcase.constantize
         fk = image_handler.primary_key
         fk_type = ((image_handler.respond_to? :columns) ? image_handler.columns.select{|column| column.name == fk}.first.type : :integer)
