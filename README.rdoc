@@ -30,7 +30,7 @@ That model is the image handler.
 
 Generate image holder. This is a model that is made separately.
 
-  rails generate watarase:generator user
+  rails generate watarase:uploader user
 
 The generator made UserImageHolder the model class and the migration file.
 
