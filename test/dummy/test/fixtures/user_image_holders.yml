@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+<%
+  def image_data
+    File.open(Rails.root.join('test/fixtures/images', 'default.png'), 'rb') do |f|
+      "!!binary \"#{Base64.strict_encode64(f.read)}\""
+    end
+  end
+%>
+
+one:
+  user_username: MyString1
+  filename: file_one
+  content_type: 'image/png'
+  image_data: <%= image_data %>
+  image_thumb: <%= image_data %>
+
+two:
+  user_username: MyString2
+  filename: file_two
+  content_type: 'image/png'
+  image_data: <%= image_data %>
+  image_thumb: <%= image_data %>

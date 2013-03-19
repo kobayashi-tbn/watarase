@@ -1,0 +1,125 @@
+= Watarase
+
+Watarase is a rails plugin for Image Upload.
+
+Images are stored into the database as binary data.
+This plugin is inteded to be handled as a small image of the icon.
+
+
+== Installation
+
+Add to Gemfile following
+
+  gem 'watarase'
+  gem 'rmagick'
+
+Now, watarase plugin setting following
+
+  gem 'watarase', :git => 'git://github.com/kobayashi-tbn/watarase.git'
+
+
+== Getting Started
+
+Any model of the target is present is expected.
+
+example
+
+  rails generate scaffold user username:string email:string
+
+That model is the image handler.
+
+Generate image holder. This is a model that is made separately.
+
+  rails generate watarase:generator user
+
+The generator made UserImageHolder the model class and the migration file.
+
+Example of migration file is following.
+
+    class CreateUserImageHolders < ActiveRecord::Migration
+      def change
+        create_table :user_image_holders do |t|
+          t.string :user_username
+          t.string :filename
+          t.string :content_type
+          t.binary :image_data
+          t.binary :image_thumb
+
+          t.timestamps
+        end
+      end
+    end
+
+In this case, the foreign key 'user_username' is type :string.
+It was named {model name}_{pk} automatically.
+
+== Active Record
+
+Define 'acts_as_image_hander' into Image handler model (ex. User).
+
+  class User
+    self.primary_key :username # if this model's PK was 'username'.
+    acts_as_image_handler # define image hander
+  end
+
+
+== Controller
+
+Set image holder to image handler by method 'set_iamge_holder'.
+
+      def create
+        @user = User.new(user_params)
+        set_image_holder @user
+           :
+
+      def update
+        set_image_holder @user
+           :
+
+
+== View
+
+Examples _form.html.erb for User
+
+    <%= form_for(@user) do |f| %>
+      <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :username %><br />
+        <%= f.text_field :username %>
+      </div>
+      <div class="field">
+        <%= f.label :image_file %><br />
+        <%= f.file_field :image_file %>
+      </div>
+      <% unless @user.new_record? %>
+            <div class="field">
+              <%= f.check_box :remove_image %>
+              <%= f.label :remove_image %><br />
+            </div>
+      <% end %>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <% end %>
+
+Add file_field form, and check box for remove the image.
+Parameter name is fixed, :image_file and :remove_image.
+
+== TODO
+
+  * Configuring parameters for plugin settings.
+  * Secure upload by file extentions.
+
+
+This project rocks and uses MIT-LICENSE.
