@@ -13,10 +13,6 @@ Add to Gemfile following
   gem 'watarase'
   gem 'rmagick'
 
-Now, watarase plugin setting following
-
-  gem 'watarase', :git => 'git://github.com/kobayashi-tbn/watarase.git'
-
 
 == Getting Started
 
