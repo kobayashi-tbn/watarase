@@ -75,7 +75,7 @@ Define 'image_loadable <image_handler>' definition in controllers.
       image_loadable :user
            :
 
-Set image holder to image handler by method 'set_iamge_holder'.
+Set image holder to image handler by method 'set_image_holder'.
 
       def create
         @user = User.new(user_params)
