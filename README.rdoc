@@ -5,6 +5,11 @@ Watarase is a rails plugin for Image Upload.
 Images are stored into the database as binary data.
 This plugin is inteded to be handled as a small image of the icon.
 
+== Requirements
+
+=== Image processor
+
+ImageMagick must be installed.
 
 == Installation
 
