@@ -11,6 +11,7 @@ module Watarase
       self.class_variable_set(:@@image_handler, ih)
       self.send(:include, Watarase::InstanceMethods)
       self.send(:helper_method, :image_thumb_path)
+      self.send(:helper_method, :image_data_path)
     end
   end
 
@@ -36,6 +37,10 @@ module Watarase
 
     def image_thumb_path(model)
       url_for(controller: image_handler.name.downcase!.pluralize, action: 'load_image', id: model.send(:"#{image_holder.name.underscore}").id, image_column: :image_thumb)
+    end
+
+    def image_data_path(model)
+      url_for(controller: image_handler.name.downcase!.pluralize, action: 'load_image', id: model.send(:"#{image_holder.name.underscore}").id, image_column: :image_data)
     end
 
     # Call before create, update
