@@ -7,14 +7,10 @@ module Watarase
         fk_type = ((image_handler.respond_to? :columns) ? image_handler.columns.select{|column| column.name == fk}.first.type : :integer)
         model_name = "#{file_name}_#{Watarase.suffix}"
 
-        # RMagick
-        str_include = "  include Magick unless self.include? Magick\n"
+        str_code = <<-"CODE"
 
-        # Associations
-        str_belongs_to = "  belongs_to :#{file_name}, primary_key: :#{fk}, foreign_key: :#{file_name}_#{fk}\n"
-
-        # Instance Methods
-        str_methods = <<-CODE
+  include Magick unless self.include? Magick
+  belongs_to :#{file_name}, primary_key: :#{fk}, foreign_key: :#{file_name}_#{fk}
 
   def uploaded_image= (image_params)
     if image_params[:remove_image] && image_params[:remove_image] == "1"
@@ -37,7 +33,7 @@ module Watarase
 
         generate "model", "#{model_name} #{file_name}_#{fk}:#{fk_type} filename:string content_type:string image_data:binary image_thumb:binary"
         inject_into_class "app/models/#{model_name}.rb", model_name.camelcase.constantize do
-          str_include << str_belongs_to << str_methods
+          str_code
         end
       end
     end
