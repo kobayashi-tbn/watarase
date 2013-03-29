@@ -9,8 +9,8 @@ module Watarase
 
   module ActsAsImageHandler
     def acts_as_image_handler
-      _image_holder = (self.name.underscore << '_' << Watarase.suffix).to_sym
-      self.send(:has_one, _image_holder, primary_key: self.primary_key, foreign_key: "#{self.name.underscore}_#{self.primary_key}", autosave: true)
+      image_holder = (self.name.underscore << '_' << Watarase.suffix).to_sym
+      self.send(:has_one, image_holder, primary_key: self.primary_key, foreign_key: "#{self.name.underscore}_#{self.primary_key}", autosave: true)
       self.send(:attr_accessor, :remove_image)
     end
   end
