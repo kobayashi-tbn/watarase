@@ -3,10 +3,11 @@ require 'test_helper'
 class WataraseTest < ActiveSupport::TestCase
 
   setup do
+    setup_app_dir
+
     @user = User.new
     @user_image_holder = UserImageHolder.new
   end
-
 
   test "truth" do
     assert_kind_of Module, Watarase
