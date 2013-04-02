@@ -13,7 +13,7 @@ module Watarase
       self.class_variable_set(:@@image_handler, ih)
       self.send(:include, Watarase::InstanceMethods)
       self.send(:caches_action, :load_image) if options[:caches]
-      self.send(:after_action, :expire_caches, options[:expire_actions]) if options[:expire_actions]
+      self.send(:before_action, :expire_caches, options[:expire_actions]) if options[:expire_actions]
       self.send(:helper_method, :image_thumb_path)
       self.send(:helper_method, :image_data_path)
     end
