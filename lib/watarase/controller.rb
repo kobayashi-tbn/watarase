@@ -1,3 +1,5 @@
+require 'action_controller/action_caching'
+
 module Watarase
   module Controller
     def self.included(controller)
@@ -7,8 +9,6 @@ module Watarase
 
   module ImageLoader
     def image_loadable(_image_handler, options = {})
-      require 'action_controller/action_caching'
-
       ih = _image_handler.to_s.camelize.constantize
       self.class_variable_set(:@@image_handler, ih)
       self.send(:include, Watarase::InstanceMethods)
