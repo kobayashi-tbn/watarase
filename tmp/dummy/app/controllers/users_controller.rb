@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  image_loadable :user
+  image_loadable :user, caches: true, expire_actions: [:update]
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 

@@ -7,8 +7,12 @@ module Watarase
 
   module ImageLoader
     def image_loadable(_image_handler, options = {})
+      require 'action_controller/action_caching'
+
       ih = _image_handler.to_s.camelize.constantize
       self.class_variable_set(:@@image_handler, ih)
+      self.send(:caches_action, :load_image) if options[:caches]
+      self.send(:after_action, :expire_caches, options[:expire_actions]) if options[:expire_actions]
       self.send(:include, Watarase::InstanceMethods)
       self.send(:helper_method, :image_thumb_path)
       self.send(:helper_method, :image_data_path)
@@ -17,10 +21,13 @@ module Watarase
 
   module InstanceMethods
     def load_image
-      #image = "#{image_handler}_image".camelize.constantize.find(params[:id])
       image = image_holder.find(params[:id])
-      column_name = :"#{(params[:image_column] || :image_data)}"
+      column_name = :"#{(params[:image_column] || 'image_data')}"
       send_data image.send(column_name), type: image.content_type, disposition: 'inline'
+    end
+
+    def expire_caches
+      expire_action action: :load_image
     end
 
     def image_params

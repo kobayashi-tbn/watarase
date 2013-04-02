@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0.beta1"
   s.add_dependency "rmagick"
+  s.add_dependency "actionpack-action_caching"
 
   s.add_development_dependency "pg"
 end

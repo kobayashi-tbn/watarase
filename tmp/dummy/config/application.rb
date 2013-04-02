@@ -6,6 +6,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups(assets: %w(development test)))
 
 require "watarase"
+require 'action_controller/action_caching'
 
 
 module Dummy
