@@ -91,6 +91,13 @@ Set image holder to image handler by method 'set_image_holder'.
         set_image_holder @user
            :
 
+If you need image caching then, use options caches: and expire_actions:.
+
+    image_loadable :user, caches: true, expire_actions: [:update]
+
+In this case, action caching enabled, and clearing the cache in update action.
+
+
 == View
 
 Examples _form.html.erb for User
