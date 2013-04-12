@@ -9,26 +9,10 @@ module Watarase
 
         str_code = <<-"CODE"
 
-  include Magick unless self.include? Magick
+  image_holdable
+
   belongs_to :#{file_name}, primary_key: :#{fk}, foreign_key: :#{file_name}_#{fk}
 
-  def uploaded_image= (image_params)
-    if image_params[:remove_image] && image_params[:remove_image] == "1"
-      self.destroy
-    elsif image_params[:image_file] && !image_params[:image_file].blank?
-      self.filename = image_params[:image_file].original_filename
-      self.content_type = image_params[:image_file].content_type
-      data = image_params[:image_file].tempfile.read
-      self.image_data = Image.from_blob(data).first.resize_to_fit(100, 100).to_blob
-      self.image_thumb = Image.from_blob(data).first.thumbnail(35, 35).to_blob
-    elsif self.new_record?
-      self.destroy
-    end
-  end
-
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
         CODE
 
         generate "model", "#{model_name} #{file_name}_#{fk}:#{fk_type} filename:string content_type:string image_data:binary image_thumb:binary"

@@ -1,6 +1,4 @@
 require 'rubygems'
-#require 'RMagick'
-#require 'rmagick'
 require 'rails/generators'
 
 module Watarase
@@ -26,3 +24,5 @@ end
 require 'watarase/model'
 require 'watarase/controller'
 require 'watarase/generators/uploader/uploader_generator'
+require 'watarase/extension_whitelist'
+require 'watarase/image_holder'
