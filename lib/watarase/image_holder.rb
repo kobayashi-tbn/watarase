@@ -9,16 +9,16 @@ module Watarase
   end
 
   module ImageHolder
-    #def self.included(model)
-      #model.send(:include, Magick) unless model.include? Magick
-    #end
     def image_holdable
       self.send(:include, Watarase::ImageHolder::ExtensionWhitelist)
-      self.send(:include, Watarase::ImageHolder::InstanceMethods)
-      self.send(:before_save, :prepare_image)
+      self.send(:include, Watarase::ImageHolder::Uploader)
     end
 
-    module InstanceMethods
+    module Uploader
+      def self.included(model)
+        model.send(:before_save, :prepare_image)
+      end
+
       def uploaded_image= (image_params)
         if image_params[:remove_image] && image_params[:remove_image] == "1"
           self.destroy
