@@ -13,6 +13,7 @@ module Watarase
         self.send(:include, Watarase::Controller::InstanceMethods)
         self.send(:caches_action, :load_image) if options[:caches]
         self.send(:before_action, :expire_caches, only: options[:expire_actions]) if options[:expire_actions]
+        self.send(:before_action, :image_params, only: options[:save_actions]) if options[:save_actions]
         self.send(:helper_method, :image_thumb_path)
         self.send(:helper_method, :image_data_path)
       end
@@ -30,7 +31,9 @@ module Watarase
       end
 
       def image_params
-        params.require(image_handler.name.underscore.to_sym).permit(:image_file, :remove_image)
+        ip = params.require(image_handler.name.underscore.to_sym).permit(:image_file, :remove_image)
+        puts "**** image_params **** #{ip} ****"
+        Thread.current[:image_params] = ip
       end
 
       def image_handler
@@ -50,10 +53,10 @@ module Watarase
       end
 
       # Call before create, update
-      def set_image_holder(_image_handler)
-        _image_handler.send(:"#{image_holder.name.underscore}=", image_holder.new) unless _image_handler.send(:"#{image_holder.name.underscore}")
-        _image_handler.send(:"#{image_holder.name.underscore}").uploaded_image = image_params
-      end
+      #def set_image_holder(_image_handler)
+      #  _image_handler.send(:"#{image_holder.name.underscore}=", image_holder.new) unless _image_handler.send(:"#{image_holder.name.underscore}")
+      #  _image_handler.send(:"#{image_holder.name.underscore}").uploaded_image = image_params
+      #end
     end
   end
 end

@@ -9,7 +9,7 @@ module Watarase
 
         str_code = <<-"CODE"
 
-  image_holdable
+  acts_as_image_holder
 
   belongs_to :#{file_name}, primary_key: :#{fk}, foreign_key: :#{file_name}_#{fk}
 

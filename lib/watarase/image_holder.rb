@@ -2,24 +2,26 @@
 require 'rmagick'
 
 module Watarase
-  module ActiveRecord
+  module ImageHolder
     def self.included(model)
-      model.extend Watarase::ImageHolder
+      model.extend Watarase::ImageHolder::Macro
     end
   end
+end
 
+module Watarase
   module ImageHolder
-    def image_holdable
-      self.send(:include, Watarase::ImageHolder::ExtensionWhitelist)
-      self.send(:include, Watarase::ImageHolder::Uploader)
+    module Macro
+      def acts_as_image_holder
+        self.send(:include, Watarase::ImageHolder::ExtensionWhitelist)
+        self.send(:include, Watarase::ImageHolder::Store)
+        self.send(:before_save, :prepare_image)
+      end
     end
 
-    module Uploader
-      def self.included(model)
-        model.send(:before_save, :prepare_image)
-      end
-
+    module Store
       def uploaded_image= (image_params)
+        puts "**** uploaded_image ****"
         if image_params[:remove_image] && image_params[:remove_image] == "1"
           self.destroy
         elsif image_params[:image_file] && !image_params[:image_file].blank?
@@ -33,6 +35,7 @@ module Watarase
       end
 
       def prepare_image
+        puts "**** prepare_image ****"
         return unless @data
         self.image_data = Magick::Image.from_blob(@data).first.resize_to_fit(100, 100).to_blob
         self.image_thumb = Magick::Image.from_blob(@data).first.thumbnail(35, 35).to_blob
@@ -41,4 +44,4 @@ module Watarase
   end
 end
 
-ActiveRecord::Base.send :include, Watarase::ActiveRecord unless ActiveRecord::Base.include? Watarase::ActiveRecord
+ActiveRecord::Base.send :include, Watarase::ImageHolder unless ActiveRecord::Base.include? Watarase::ImageHolder

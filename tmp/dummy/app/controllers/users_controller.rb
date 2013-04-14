@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  image_loadable :user, caches: true, expire_actions: [:update]
+  image_loadable :user, caches: true, expire_actions: [:update], save_actions: [:create, :update]
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.all.merge(includes: [:user_image_holder])
   end
 
   # GET /users/1
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    set_image_holder @user
+    #set_image_holder @user
 
     respond_to do |format|
       if @user.save
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
 
-    set_image_holder @user
+    #set_image_holder @user
 
     respond_to do |format|
       if @user.update(user_params)

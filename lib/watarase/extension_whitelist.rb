@@ -7,6 +7,7 @@ module Watarase
       end
 
       def check_extension
+        puts "**** check_extension ****"
         if filename && extension_white_list && !extension_white_list.include?(File.extname(filename).sub(/\./, ''))
           raise StandardError, "Unsupported file " + filename
         end
