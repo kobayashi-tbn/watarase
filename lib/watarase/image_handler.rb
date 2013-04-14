@@ -26,7 +26,7 @@ module Watarase
         image_holder = (self.class.name.underscore << '_' << Watarase.suffix)
         return if (!self.send(image_holder.to_sym) and (!Thread.current[:image_params] or !Thread.current[:image_params][:image_file]))
 
-        self.send((image_holder + '=').to_sym, UserImageHolder.new) unless self.send(image_holder.to_sym)
+        self.send((image_holder + '=').to_sym, image_holder.camelcase.constantize.new) unless self.send(image_holder.to_sym)
         self.send(image_holder.to_sym).send(:uploaded_image=, (Thread.current[:image_params] || {}))
       end
     end
