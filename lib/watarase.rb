@@ -21,7 +21,7 @@ module Watarase
     end
   end
 end
-require 'watarase/model'
+require 'watarase/image_handler'
 require 'watarase/controller'
 require 'watarase/generators/uploader/uploader_generator'
 require 'watarase/extension_whitelist'
